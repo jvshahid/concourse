@@ -14,6 +14,7 @@ func CreateBuildPlan(
 	versionedResourceTypes atc.VersionedResourceTypes,
 	outputs []Output,
 	config atc.TaskConfig,
+	imageResourceName string,
 	tags []string,
 ) (atc.Plan, error) {
 	if err := config.Validate(); err != nil {
@@ -29,6 +30,7 @@ func CreateBuildPlan(
 		Name:                   "one-off",
 		Privileged:             privileged,
 		Config:                 &config,
+		ImageArtifactName:      imageResourceName,
 		InputMapping:           inputMappings,
 		VersionedResourceTypes: versionedResourceTypes,
 	})

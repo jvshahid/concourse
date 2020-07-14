@@ -56,7 +56,7 @@ func (command *ExecuteCommand) Execute(args []string) error {
 
 	planFactory := atc.NewPlanFactory(time.Now().Unix())
 
-	inputs, inputMappings, imageResource, resourceTypes, err := executehelpers.DetermineInputs(
+	inputs, inputMappings, resourceTypes, err := executehelpers.DetermineInputs(
 		planFactory,
 		target.Team(),
 		taskConfig.Inputs,
@@ -71,8 +71,8 @@ func (command *ExecuteCommand) Execute(args []string) error {
 		return err
 	}
 
-	if imageResource != nil {
-		taskConfig.ImageResource = imageResource
+	if command.Image != "" {
+		taskConfig.ImageResource = nil
 	}
 
 	outputs, err := executehelpers.DetermineOutputs(
@@ -93,6 +93,7 @@ func (command *ExecuteCommand) Execute(args []string) error {
 		resourceTypes,
 		outputs,
 		taskConfig,
+		command.Image,
 		command.Tags,
 	)
 
